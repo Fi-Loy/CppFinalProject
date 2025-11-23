@@ -1,5 +1,5 @@
 //TODO
-// - Make the constructor private and a friend function
+// - (DONE) Make the constructor private and a friend function
 //   of the CardDeck class
 // - (DONE) Conversion operator to type FaceAnimal
 // - (DONE) Conversion operator to type FaceBackground
@@ -12,9 +12,8 @@ enum FaceBackground {Red, Green, Purple, Blue, Yellow};
 
 class Card{
     friend ostream &operator<<(ostream&, const Card&);
+    friend class CardDeck;
     public:
-        Card(FaceAnimal animal, FaceBackground background) //TODO: make constructor private and a friend function of CardDeck
-            : face(animal), background(background) {}
         int getNRows() const {return rows;} 
         string getRow(int);
         bool flipFace() { return faceUp = faceUp ? false : true;}
@@ -26,7 +25,10 @@ class Card{
         FaceBackground background;
         int rows = 3;
         bool faceUp = false;
-        
+        Card(FaceAnimal animal, FaceBackground background) //TODO: make constructor private and a friend function of CardDeck
+            : face(animal), background(background) {}  
+        Card()
+            : face(FaceAnimal::Crab), background(FaceBackground::Blue) {}      
         char enumMap(FaceBackground) const;
 };
 
