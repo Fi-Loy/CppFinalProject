@@ -62,9 +62,14 @@ void CardDeck::shuffle(){
 //Returns the card pointed to by the 
 //top of the deck
 Card* CardDeck::getNext(){
-    Card* rCard = &deck[top-1];
-    top--;
-    return  rCard;
+    if (top > 0){
+        Card* rCard = &deck[top-1];
+        top--;
+        return  rCard;  
+    }
+    else
+        return nullptr;
+    
 }
 
 //Returns True if the deck is empty

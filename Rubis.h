@@ -27,13 +27,3 @@ ostream &operator<<(ostream &os, const Rubis &rCard){
     os << rCard.value;
     return os;
 }
-
-int main(){
-    Rubis rCard1 (5);
-    Rubis rCard2 (-324);
-    Rubis rCard3 (2);
-
-    cout << rCard3 << endl;
-    cout << int(rCard2) << endl;
-    cout << rCard1 << endl;
-}
