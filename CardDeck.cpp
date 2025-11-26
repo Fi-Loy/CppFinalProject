@@ -80,6 +80,7 @@ bool CardDeck::isEmpty() const{
     return top > 0 ? false : true;
 }
 
+/*
 int main(){
     CardDeck myDeck = CardDeck::makeCardDeck();
     myDeck.shuffle();
@@ -87,6 +88,7 @@ int main(){
     myCard->flipFace();
     cout << *myCard;
 }
+    */
 
 
 
