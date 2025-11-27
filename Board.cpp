@@ -29,8 +29,3 @@ class NoMoreCards : public std::out_of_range{
     public:
         NoMoreCards(const std::string& s) : std::out_of_range(s) {}
 };
-
-Board::Board(){
-    CardDeck gameDeck = CardDeck::
-}
-

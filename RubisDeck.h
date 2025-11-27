@@ -3,7 +3,6 @@
 #include <vector>
 
 class RubisDeck : public DeckFactory<Rubis>{
-    friend class UnitTests;
     public:
         static RubisDeck& makeRubisDeck();
         void shuffle() override;

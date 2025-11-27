@@ -2,31 +2,15 @@
 // "The method has to always reutrn the same 
 //  CardDeck during the execution of the program"
 //  ^clarify with the TA what this means exactly
-#include "DeckFactory.h"
+#include "CardDeck.h"
 #include "Card.h"
 #include <algorithm>
 #include <random>
 #include <vector>
 using namespace std;
 
-class CardDeck : public DeckFactory<Card>{
-    public:
-        static CardDeck& makeCardDeck();
-        void shuffle() override;
-        Card* getNext() override;
-        bool isEmpty() const override;
-    private:
-        CardDeck() {}
-        static int top;
-        //static Card deck[25];
-        static vector<Card> deck;
-        static vector<Card> makeDeck();
-        
-};
-
 //Initializing static members
 int CardDeck::top = 25;
-//Card CardDeck::deck[25];
 vector<Card> CardDeck::deck = CardDeck::makeDeck();
 
 //Static method for inilizining the static deck
