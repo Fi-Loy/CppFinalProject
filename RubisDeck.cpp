@@ -12,6 +12,11 @@ RubisDeck& RubisDeck::makeRubisDeck(){
     return singleton;
 }
 
+void RubisDeck::resetState(){
+    top = 7;
+    deck = {Rubis(1), Rubis(1), Rubis(1), Rubis(2), Rubis(2), Rubis(3), Rubis(4)};
+}
+
 void RubisDeck::shuffle(){
     random_device rd;
     mt19937 g(rd());

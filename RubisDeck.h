@@ -3,11 +3,13 @@
 #include <vector>
 
 class RubisDeck : public DeckFactory<Rubis>{
+    friend class UnitTests;
     public:
         static RubisDeck& makeRubisDeck();
         void shuffle() override;
         Rubis* getNext() override;
         bool isEmpty() const override;
+        static void resetState();//for testing, remove before submission
     private:
         static int top;
         static std::vector<Rubis> deck;

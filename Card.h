@@ -5,17 +5,17 @@
 // - (DONE) Conversion operator to type FaceBackground
 
 #include <iostream>
-using namespace std;
+#pragma once
 
 enum FaceAnimal {Crab, Penguin, Octopus, Turtle, Walrus};
 enum FaceBackground {Red, Green, Purple, Blue, Yellow};
 
 class Card{
-    friend ostream &operator<<(ostream&, const Card&);
+    friend std::ostream &operator<<(std::ostream&, const Card&);
     friend class CardDeck;
     public:
         int getNRows() const {return rows;} 
-        string getRow(int);
+        std::string getRow(int);
         bool flipFace() { return faceUp = faceUp ? false : true;}
         operator FaceAnimal() const {return face;}
         operator FaceBackground() const {return background;}
@@ -32,7 +32,7 @@ class Card{
         char enumMap(FaceBackground) const;
 };
 
-ostream &operator<<(ostream &os, const Card &card){
+std::ostream &operator<<(std::ostream &os, const Card &card){
     char face = card.enumMap(card.face);
     char back = card.enumMap(card.background);
     const char t[] = {back, back, back, '\0'};
@@ -69,7 +69,7 @@ char Card::enumMap (FaceAnimal face) const{
 
 //Return the appropriate char array depending on row number
 //and flipped status.
-string Card::getRow(int i){
+std::string Card::getRow(int i){
     char CardFace = enumMap(face);
     char CardBack = enumMap(background);
     

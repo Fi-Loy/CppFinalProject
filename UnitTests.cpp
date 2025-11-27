@@ -9,13 +9,15 @@ using namespace std;
 
 bool PlayerClassTest(){
     Player player ("David", bottom);
-    player.addRubis(Rubis(4));
+    RubisDeck playersDeck = RubisDeck::makeRubisDeck();
+    player.addRubis(*(playersDeck.getNext()));
+    player.addRubis(*(playersDeck.getNext()));
 
     bool t1 = "David" == player.getName(); // David
     bool t2 = 0 == player.isActive(); // 0
     player.setActive(true); 
     bool t3 = 1 == player.isActive(); // 1
-    bool t4 = 4 == player.getNRubis(); // 4
+    bool t4 = 7 == player.getNRubis(); // 7
     bool t5 = 1 == player.getSide(); // bottom
     player.setSide(top);
     bool t6 = 0 == player.getSide(); // top
@@ -25,7 +27,9 @@ bool PlayerClassTest(){
     player.setDisplayMode(true);
     stringstream inactiveOutput;
     inactiveOutput << player;
-    bool t8 = 0 == inactiveOutput.str().compare("David: 4 rubis");
+    bool t8 = 0 == inactiveOutput.str().compare("David: 7 rubis");
+
+    playersDeck.resetState();
 
     return t1 && t2 && t3 && t4 && t5 && t6 && t7 && t8;
 }
@@ -35,19 +39,20 @@ bool RubisDeckTest(){
 
     bool t1 = 0 == myDeck.isEmpty();
 
-    int values[] = {1,1,1,2,2,3,4};
+    int values[] = {4,3,2,2,1,1,1};
     bool t2 = true;
 
     for (int i = 0; i < 7; i++){
         Rubis* myCard = myDeck.getNext();
         t2 &= values[i] == *myCard; 
+        //cout << "array val: " << values[i] << " Rubis val: " << int(*myCard) << endl;
     } 
     bool t3 = 1 == myDeck.isEmpty();
 
-    cout << t1 << "test1" << endl;
-    cout << t2 << "test2" << endl;
-    cout << t3 << "test3" << endl;
-    cout << "True: " << true << endl;
+    //cout << "test1: " << t1 << endl;
+    //cout << "test2: " << t2 << endl;
+    //cout << "test3: " << t3 << endl;
+    //cout << "True: " << true << endl;
 
     return t1 && t2 && t3;
 }
