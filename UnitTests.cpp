@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include "RubisDeck.h"
+#include "Board.h"
 
 using namespace std;
 
@@ -57,7 +58,27 @@ bool RubisDeckTest(){
     return t1 && t2 && t3;
 }
 
+bool BoardTest(){
+    Board myBoard;
+    myBoard.allFacesUp();
+    std::cout << myBoard;
+    myBoard.allFacesDown();
+    std::cout << myBoard;
+    std::cout << "Is card at (1,1) flipped?: " << myBoard.isFaceUp(Letter(1),Number(1)) << std::endl;//0
+    myBoard.turnFaceUp(Letter(1),Number(1));
+    std::cout << "Is card at (1,1) flipped?: " << myBoard.isFaceUp(Letter(1),Number(1)) << std::endl;//1
+    myBoard.turnFaceUp(Letter(4),Number(4));
+    std::cout << myBoard;
+    Card* temp = myBoard.getCard(Letter(1),Number(1));
+    myBoard.setCard(Letter(1),Number(1),myBoard.getCard(Letter(4),Number(4)));
+    myBoard.setCard(Letter(4),Number(4), temp);
+    std::cout << myBoard;
+    return true;
+}
+
+
 int main(){
     cout << "PlayerClassTest: " << PlayerClassTest() << endl;
     cout << "RubisDeckTest: " << RubisDeckTest() << endl;
+    BoardTest();
 }

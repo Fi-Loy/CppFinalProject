@@ -16,7 +16,8 @@ class Card{
     public:
         int getNRows() const {return rows;} 
         std::string getRow(int);
-        bool flipFace() { return faceUp = faceUp ? false : true;}
+        bool setFaceUp(bool val) { return faceUp = val;}
+        bool isFaceUp() const {return faceUp;}
         operator FaceAnimal() const {return face;}
         operator FaceBackground() const {return background;}
         char enumMap(FaceAnimal) const;

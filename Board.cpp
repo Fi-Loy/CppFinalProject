@@ -1,31 +1,149 @@
-// Class requirements
-// - must hold an array of strings corresponding to the screen display
-// - Cards are held in an array accessed by the enums
-// - maybe? the array should be of Card*, not Card objects
-// - should be printable with << operator
-// - constructor should throw NoMoreCards Exception if there are no more cards to construct a board
-#include "Card.h"
-#include "CardDeck.h"
+//TODO - Talk to TA about OutOfRange exception, and if thats built in or one we have to make.
 
-enum Letter {A, B, C, D, E};
-enum Number {one, two, three, four, five};
+#include "Board.h"
 
-class Board{
-    friend std::ostream &operator<<(std::ostream& os, const Board* board);
-    public:
-        Board();
-        bool isFaceUp(const Letter&, const Number&) const;
-        bool turnFaceUp(const Letter&, const Number&);
-        bool turnFaceDown(const Letter&, const Number&);
-        Card* getCard(const Letter&, const Number&);
-        void setCard(const Letter&, const Number&, Card*);
-        void allFacesDown();
-    private:
-        std::string display[21];
-        Card* cardsOnTheBoard[5][5];
-};
+//Updates the board display. To be called after every
+//change to board state
+void Board::updateDisplay() {
+    char letter[] = {'A', 'B', 'C', 'D', 'E'};
+    int ldex = 0;
+    for(int i = 0; i < 20; i++){
+        std::string line;
+        if(i % 4 == 3){//space between cards
+            line = '\n';
+        }
+        else{//cards
+            if(i % 4 == 1){//adding letters to the right
+                line += letter[ldex++];
+                line += '\t';
+            }
+            else
+                line += '\t';
+            for (int j = 0; j < 5; j++){
+            if ((i == 9 || i == 10 || i == 8) && j == 2)
+                line += "     ";
+            else
+                line += cardsOnTheBoard[i/4][j]->getRow(i) += "  ";
+        }
+        }
+        display[i] = line;
+    }
+    display[20] = "\t 1    2    3    4    5";
+}
+
+std::ostream &operator<<(std::ostream& os, const Board& board){
+    for(int i = 0; i < 21; i++){
+        os << board.display[i] << std::endl;
+    }
+    return os;
+}
 
 class NoMoreCards : public std::out_of_range{
     public:
         NoMoreCards(const std::string& s) : std::out_of_range(s) {}
 };
+
+//Sets all cards on the board face down
+void Board::allFacesDown(){
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            cardsOnTheBoard[i][j]->setFaceUp(false);
+        }
+    }
+    this->updateDisplay();
+}
+
+//Sets all cards on the board face up
+void Board::allFacesUp(){
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            cardsOnTheBoard[i][j]->setFaceUp(true);
+        }
+    }
+    this->updateDisplay();
+}
+
+//Sets the card on the board at the given location to the card argument passed
+// - Throws OutOfBounds
+void Board::setCard(const Letter& letter, const Number& number, Card* pCard){
+    //if(int(letter) < 0 || int(letter) > 4 || int(number) < 0 || int(number) > 4)
+        //throw OutOfBounds; //done know if we have to make this or if its supposed to be out_of_range
+    cardsOnTheBoard[int(letter)][int(number)] = pCard;
+    this->updateDisplay();
+}
+
+//Returns the card found at the given location
+// - Throws OutOfBounds
+Card* Board::getCard(const Letter& letter, const Number& number){
+    //if(int(letter) < 0 || int(letter) > 4 || int(number) < 0 || int(number) > 4)
+        //throw OutOfBounds; //done know if we have to make this or if its supposed to be out_of_range
+    return cardsOnTheBoard[int(letter)][int(number)];
+}
+
+//Sets the card at the given location to face down
+// - Throws OutOfBounds
+bool Board::turnFaceDown(const Letter& letter, const Number& number){
+    //if(int(letter) < 0 || int(letter) > 4 || int(number) < 0 || int(number) > 4)
+        //throw OutOfBounds; //done know if we have to make this or if its supposed to be out_of_range
+    bool rBool = cardsOnTheBoard[int(letter)][int(number)]->setFaceUp(false);
+    this->updateDisplay();
+    return rBool;
+}
+
+//Sets the card at the given location to face up
+// - Throws OutOfBounds
+bool Board::turnFaceUp(const Letter& letter, const Number& number){
+    //if(int(letter) < 0 || int(letter) > 4 || int(number) < 0 || int(number) > 4)
+        //throw OutOfBounds; //done know if we have to make this or if its supposed to be out_of_range
+    bool rBool = cardsOnTheBoard[int(letter)][int(number)]->setFaceUp(true);
+    this->updateDisplay();
+    return rBool;
+    
+}
+
+//Returns whether or not the card at the given location is face up
+// - Throws OutOfBounds 
+bool Board::isFaceUp(const Letter& letter, const Number& number) const{
+    //if(int(letter) < 0 || int(letter) > 4 || int(number) < 0 || int(number) > 4)
+        //throw OutOfBounds; //done know if we have to make this or if its supposed to be out_of_range
+    return cardsOnTheBoard[int(letter)][int(number)]->isFaceUp();
+}
+
+//Board constructor
+// - Throws NoMoreCards
+Board::Board(){
+    CardDeck boardsDeck = CardDeck::makeCardDeck();
+    boardsDeck.shuffle();
+
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 5; j++){
+            Card* card = boardsDeck.getNext();
+            if(card == nullptr){
+                throw NoMoreCards("Deck has no more cards.");
+            }
+            else
+                cardsOnTheBoard[i][j] = card;
+        }
+    }
+    this->updateDisplay();
+}
+
+/* class testing artifact
+int main(){
+    Board myBoard;
+    myBoard.allFacesUp();
+    std::cout << myBoard;
+    myBoard.allFacesDown();
+    std::cout << myBoard;
+    std::cout << "Is card at (1,1) flipped?: " << myBoard.isFaceUp(Letter(1),Number(1)) << std::endl;//0
+    myBoard.turnFaceUp(Letter(1),Number(1));
+    std::cout << "Is card at (1,1) flipped?: " << myBoard.isFaceUp(Letter(1),Number(1)) << std::endl;//1
+    myBoard.turnFaceUp(Letter(4),Number(4));
+    std::cout << myBoard;
+    Card* temp = myBoard.getCard(Letter(1),Number(1));
+    myBoard.setCard(Letter(1),Number(1),myBoard.getCard(Letter(4),Number(4)));
+    myBoard.setCard(Letter(4),Number(4), temp);
+    std::cout << myBoard;
+
+}
+*/

@@ -1,3 +1,4 @@
+#pragma once
 template <typename C> class DeckFactory{
     public:
         virtual void shuffle() = 0;
