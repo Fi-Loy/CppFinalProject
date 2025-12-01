@@ -31,6 +31,7 @@ void Board::updateDisplay() {
     display[20] = "\t 1    2    3    4    5";
 }
 
+//Board output operator overload
 std::ostream &operator<<(std::ostream& os, const Board& board){
     for(int i = 0; i < 21; i++){
         os << board.display[i] << std::endl;
@@ -38,10 +39,17 @@ std::ostream &operator<<(std::ostream& os, const Board& board){
     return os;
 }
 
-class NoMoreCards : public std::out_of_range{
-    public:
-        NoMoreCards(const std::string& s) : std::out_of_range(s) {}
-};
+//Helper function for easily changing acceptable indices
+bool Board::isValidIndex(const Letter& letter, const Number& number) const{
+    bool isValid = int(letter) < 0; 
+    isValid |= int(letter) > 4;
+    isValid |= int(number) < 0;
+    isValid |= int(number) > 4;
+    isValid |= int(letter) == 2;
+    isValid |= int(number) == 2;
+
+    return !isValid;
+}
 
 //Sets all cards on the board face down
 void Board::allFacesDown(){
@@ -66,8 +74,8 @@ void Board::allFacesUp(){
 //Sets the card on the board at the given location to the card argument passed
 // - Throws OutOfBounds
 void Board::setCard(const Letter& letter, const Number& number, Card* pCard){
-    //if(int(letter) < 0 || int(letter) > 4 || int(number) < 0 || int(number) > 4)
-        //throw OutOfBounds; //done know if we have to make this or if its supposed to be out_of_range
+    if(!isValidIndex(letter, number))
+        throw OutOfRange("Invalid board indices", letter, number); //done know if we have to make this or if its supposed to be out_of_range
     cardsOnTheBoard[int(letter)][int(number)] = pCard;
     this->updateDisplay();
 }
@@ -75,16 +83,16 @@ void Board::setCard(const Letter& letter, const Number& number, Card* pCard){
 //Returns the card found at the given location
 // - Throws OutOfBounds
 Card* Board::getCard(const Letter& letter, const Number& number){
-    //if(int(letter) < 0 || int(letter) > 4 || int(number) < 0 || int(number) > 4)
-        //throw OutOfBounds; //done know if we have to make this or if its supposed to be out_of_range
+    if(!isValidIndex(letter, number))
+        throw OutOfRange("Invalid board indices", letter, number); //done know if we have to make this or if its supposed to be out_of_range
     return cardsOnTheBoard[int(letter)][int(number)];
 }
 
 //Sets the card at the given location to face down
 // - Throws OutOfBounds
 bool Board::turnFaceDown(const Letter& letter, const Number& number){
-    //if(int(letter) < 0 || int(letter) > 4 || int(number) < 0 || int(number) > 4)
-        //throw OutOfBounds; //done know if we have to make this or if its supposed to be out_of_range
+    if(!isValidIndex(letter, number))
+        throw OutOfRange("Invalid board indices", letter, number); //done know if we have to make this or if its supposed to be out_of_range
     bool rBool = cardsOnTheBoard[int(letter)][int(number)]->setFaceUp(false);
     this->updateDisplay();
     return rBool;
@@ -93,8 +101,8 @@ bool Board::turnFaceDown(const Letter& letter, const Number& number){
 //Sets the card at the given location to face up
 // - Throws OutOfBounds
 bool Board::turnFaceUp(const Letter& letter, const Number& number){
-    //if(int(letter) < 0 || int(letter) > 4 || int(number) < 0 || int(number) > 4)
-        //throw OutOfBounds; //done know if we have to make this or if its supposed to be out_of_range
+    if(!isValidIndex(letter, number))
+        throw OutOfRange("Invalid board indices", letter, number); //done know if we have to make this or if its supposed to be out_of_range
     bool rBool = cardsOnTheBoard[int(letter)][int(number)]->setFaceUp(true);
     this->updateDisplay();
     return rBool;
@@ -104,28 +112,34 @@ bool Board::turnFaceUp(const Letter& letter, const Number& number){
 //Returns whether or not the card at the given location is face up
 // - Throws OutOfBounds 
 bool Board::isFaceUp(const Letter& letter, const Number& number) const{
-    //if(int(letter) < 0 || int(letter) > 4 || int(number) < 0 || int(number) > 4)
-        //throw OutOfBounds; //done know if we have to make this or if its supposed to be out_of_range
+    if(!isValidIndex(letter, number))
+        throw OutOfRange("Invalid board indices", letter, number); //done know if we have to make this or if its supposed to be out_of_range
     return cardsOnTheBoard[int(letter)][int(number)]->isFaceUp();
 }
 
+
 //Board constructor
 // - Throws NoMoreCards
-Board::Board(){
+Board::Board() {
     CardDeck boardsDeck = CardDeck::makeCardDeck();
-    boardsDeck.shuffle();
+    CardDeck::resetState();
 
     for(int i = 0; i < 5; i++){
         for(int j = 0; j < 5; j++){
             Card* card = boardsDeck.getNext();
-            if(card == nullptr){
-                throw NoMoreCards("Deck has no more cards.");
+            try{
+                if(card == nullptr)
+                    throw NoMoreCards("Deck has no more cards.");
+                else
+                    cardsOnTheBoard[i][j] = card;
+            } catch (NoMoreCards){
+                CardDeck::resetState();
             }
-            else
-                cardsOnTheBoard[i][j] = card;
+            
         }
     }
     this->updateDisplay();
+
 }
 
 /* class testing artifact

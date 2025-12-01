@@ -4,6 +4,7 @@
 // - maybe? the array should be of Card*, not Card objects
 // - should be printable with << operator
 // - constructor should throw NoMoreCards Exception if there are no more cards to construct a board
+#pragma once
 #include "Card.h"
 #include "CardDeck.h"
 #include <stdexcept>
@@ -25,6 +26,22 @@ class Board{
         void allFacesUp();
     private:
         void updateDisplay();
+        bool isValidIndex(const Letter&, const Number&) const;
         std::string display[21];
         Card* cardsOnTheBoard[5][5];
+};
+
+//Exception thrown when pulling from empty Deck
+class NoMoreCards : public std::out_of_range{
+    public:
+        NoMoreCards(const std::string& s) : std::out_of_range(s) {}
+};
+
+//Exception thrown with trying to acces invalid index
+class OutOfRange : public std::out_of_range{
+    public:
+        OutOfRange(const std::string& s, const Letter& letter, const Number& number) 
+            : std::out_of_range(s) , inValidLetter(letter), inValidNumber(number) {};
+        Letter inValidLetter;
+        Number inValidNumber;
 };

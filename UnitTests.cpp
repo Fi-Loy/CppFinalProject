@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "RubisDeck.h"
 #include "Board.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -76,9 +77,102 @@ bool BoardTest(){
     return true;
 }
 
+bool GameClassTest(){
+    Game myGame;
+    Player david("David", Side::top);
+    myGame.addPlayer(david);
+    Player daniel("Daniel", Side::top);
+    try{
+        myGame.addPlayer(daniel);
+    }catch(OccupiedIndexError){
+        daniel.setSide(Side::left);
+        myGame.addPlayer(daniel);
+    } 
+    Player zach("Zach",Side::right);
+    myGame.addPlayer(zach);
+    Player mack("Mack", Side::bottom);
+    myGame.addPlayer(mack);
+    stringstream inactiveGameOutput;
+    inactiveGameOutput << myGame;
+
+    myGame.getPlayer(Side(0)).setActive(true);
+    myGame.getPlayer(Side(1)).setActive(true);
+    myGame.getPlayer(Side(2)).setActive(true);
+    myGame.getPlayer(Side(3)).setActive(true);
+
+    stringstream activeGameOutput;
+    inactiveGameOutput << myGame;
+
+    bool t1 = inactiveGameOutput.str().compare(
+        
+"        zzz  zzz  zzz  zzz  zzz  "
+"A       zzz  zzz  zzz  zzz  zzz  "
+"        zzz  zzz  zzz  zzz  zzz  "
+""
+""
+"        zzz  zzz  zzz  zzz  zzz  "
+"B       zzz  zzz  zzz  zzz  zzz  "
+"        zzz  zzz  zzz  zzz  zzz  "
+""
+""
+"        zzz  zzz       zzz  zzz  "
+"C       zzz  zzz       zzz  zzz  "
+"        zzz  zzz       zzz  zzz  "
+""
+""
+"        zzz  zzz  zzz  zzz  zzz  "
+"D       zzz  zzz  zzz  zzz  zzz  "
+"        zzz  zzz  zzz  zzz  zzz  "
+""
+""
+"        zzz  zzz  zzz  zzz  zzz  "
+"E       zzz  zzz  zzz  zzz  zzz  "
+"        zzz  zzz  zzz  zzz  zzz  "
+""
+"         1    2    3    4    5"
+"David: 0 (inactive)"
+"Mack: 1 (inactive)"
+"Daniel: 2 (inactive)"
+"Zach: 3 (inactive)");
+bool t2 = activeGameOutput.str().compare(
+        
+"        zzz  zzz  zzz  zzz  zzz  "
+"A       zzz  zzz  zzz  zzz  zzz  "
+"        zzz  zzz  zzz  zzz  zzz  "
+""
+""
+"        zzz  zzz  zzz  zzz  zzz  "
+"B       zzz  zzz  zzz  zzz  zzz  "
+"        zzz  zzz  zzz  zzz  zzz  "
+""
+""
+"        zzz  zzz       zzz  zzz  "
+"C       zzz  zzz       zzz  zzz  "
+"        zzz  zzz       zzz  zzz  "
+""
+""
+"        zzz  zzz  zzz  zzz  zzz  "
+"D       zzz  zzz  zzz  zzz  zzz  "
+"        zzz  zzz  zzz  zzz  zzz  "
+""
+""
+"        zzz  zzz  zzz  zzz  zzz  "
+"E       zzz  zzz  zzz  zzz  zzz  "
+"        zzz  zzz  zzz  zzz  zzz  "
+""
+"         1    2    3    4    5"
+"David: 0 (active)"
+"Mack: 1 (active)"
+"Daniel: 2 (active)"
+"Zach: 3 (active)");
+
+    return t1 && t2;
+}
+
 
 int main(){
     cout << "PlayerClassTest: " << PlayerClassTest() << endl;
     cout << "RubisDeckTest: " << RubisDeckTest() << endl;
+    cout << "GameClassTest: " << GameClassTest() << endl;
     BoardTest();
 }

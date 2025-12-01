@@ -26,7 +26,7 @@ class Card{
         FaceBackground background;
         int rows = 3;
         bool faceUp = false;
-        Card(FaceAnimal animal, FaceBackground background) //TODO: make constructor private and a friend function of CardDeck
+        Card(FaceAnimal animal, FaceBackground background) 
             : face(animal), background(background) {}  
         Card()
             : face(FaceAnimal::Crab), background(FaceBackground::Blue) {}      

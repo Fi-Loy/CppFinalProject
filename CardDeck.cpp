@@ -41,6 +41,9 @@ void CardDeck::shuffle(){
     mt19937 g(rd());
 
     std::shuffle(deck.begin(),deck.end(),g);
+    //^ std::random_shuffle was removed in C++17,
+    //  this is the implementation recommended by
+    //  en.cppreference.com
 }
 
 //Returns the card pointed to by the 
@@ -62,6 +65,12 @@ Card* CardDeck::getNext(){
 bool CardDeck::isEmpty() const{
     //TODO: check if this actually works
     return top > 0 ? false : true;
+}
+
+void CardDeck::resetState(){
+    CardDeck accessor = CardDeck::makeCardDeck();
+    accessor.shuffle();
+    top = 25;
 }
 
 /*
