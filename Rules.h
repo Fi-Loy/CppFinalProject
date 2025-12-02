@@ -8,7 +8,7 @@ class Rules{
         bool isValid(const Game&);
         bool gameOver(const Game&);
         bool roundOVer(const Game&);
-        const Player& Rules::getNextPlayer(const Game&);
+        const Player& getNextPlayer(const Game&);
     private:
         RuleSet ruleSet;
 };

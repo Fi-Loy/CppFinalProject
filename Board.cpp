@@ -82,7 +82,7 @@ void Board::setCard(const Letter& letter, const Number& number, Card* pCard){
 
 //Returns the card found at the given location
 // - Throws OutOfBounds
-Card* Board::getCard(const Letter& letter, const Number& number){
+Card* Board::getCard(const Letter& letter, const Number& number) const{
     if(!isValidIndex(letter, number))
         throw OutOfRange("Invalid board indices", letter, number); //done know if we have to make this or if its supposed to be out_of_range
     return cardsOnTheBoard[int(letter)][int(number)];

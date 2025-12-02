@@ -2,7 +2,7 @@
 #include "Rubis.h"
 #include <iostream>
 
-enum Side {top, bottom, left, right};
+enum Side {top, right, bottom, left};
 
 class Player{
     friend std::ostream &operator<<(std::ostream&, const Player&);

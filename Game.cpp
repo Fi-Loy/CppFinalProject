@@ -19,7 +19,7 @@ std::ostream &operator<<(std::ostream& os, const Game& game){
 }
 
 //Returns current round
-int Game::getRound(){
+int Game::getRound() const{
     return round;
 }
 

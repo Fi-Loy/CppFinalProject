@@ -20,7 +20,7 @@ class Board{
         bool isFaceUp(const Letter&, const Number&) const;
         bool turnFaceUp(const Letter&, const Number&);
         bool turnFaceDown(const Letter&, const Number&);
-        Card* getCard(const Letter&, const Number&);
+        Card* getCard(const Letter&, const Number&) const; //recent change, not sure if it will fuck everything up
         void setCard(const Letter&, const Number&, Card*);
         void allFacesDown();
         void allFacesUp();

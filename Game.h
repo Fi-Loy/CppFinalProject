@@ -5,7 +5,7 @@ class Game{
     friend std::ostream &operator<<(std::ostream&, const Game&);
     public:
         Game() {};
-        int getRound();
+        int getRound() const;
         void addPlayer(const Player&);
         Player& getPlayer(Side);
         const Card* getPreviousCard();
@@ -13,8 +13,9 @@ class Game{
         void setCurrentCard(const Card*);
         Card* getCard(const Letter&, const Number&);
         void setCard(const Letter&, const Number&, Card*);
-    private:
+
         Board gameBoard;
+    private:
         int round = 0;
         Player players[4] = {Player("empty", Side::top),Player("empty", Side::bottom),Player("empty", Side::left),Player("empty", Side::right)};
         Card* previousCard;

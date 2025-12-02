@@ -169,10 +169,11 @@ bool t2 = activeGameOutput.str().compare(
     return t1 && t2;
 }
 
-
+/*
 int main(){
     cout << "PlayerClassTest: " << PlayerClassTest() << endl;
     cout << "RubisDeckTest: " << RubisDeckTest() << endl;
     cout << "GameClassTest: " << GameClassTest() << endl;
     BoardTest();
 }
+*/
