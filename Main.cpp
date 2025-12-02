@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <limits>
 
 #include "Board.h"
 #include "Player.h"
@@ -11,6 +12,8 @@
 using namespace std;
 
 //Helper functions
+//Function for displaying the cards the players are allowed to peak
+//at the start of the game
 void cardPeek(const Player& player, Game& game){
     int indices1[] = {0,0,0};
     int indices2[] = {4,4,4};
@@ -40,7 +43,7 @@ void cardPeek(const Player& player, Game& game){
         cardsForPeek[i] = game.gameBoard.getCard(Letter(lIndeices[i]), Number(rIndecies[i]));
     }
 
-    cout << "The 3 cards in front of you:";
+    cout << "The 3 cards in front of you:\n";
     game.gameBoard.allFacesUp();
     for (int i = 0; i < 3; i++){
         for(int j = 0; j < 3; j++){
@@ -48,7 +51,6 @@ void cardPeek(const Player& player, Game& game){
         }
         cout << endl;
     }
-    
 }
 
 void gameLoop(){
@@ -124,13 +126,26 @@ void gameLoop(){
         cout << "The game will begin by each player seeing the 3\
                  \ncenter cards on their side of the table. Be sure\
                  \nto remember these cards!" << endl;
-        
+      
+        cin.get(); //empty out cin  
         for(int i = 0; i < numPlayers; i++){
-            cout << "Player " << i+1 << ", ensure no one else can see your cards.\
-                     \nWhen you are ready to see your cards, press any key: ";
+            cout << "\nPlayer " << i+1 << ", ensure no one else can see your cards.\
+                     \nWhen you are ready to see your cards, hit any key." << endl;
+            //pressEnterToContinue();
             cin.get();
-            cardPeek(game.getPlayer(Side(numPlayers)), game);
+            cardPeek(game.getPlayer(Side(i)), game);
+            cout << endl << "When you have commited these to memory. Hit any key to clear the cards and  pass it to the\
+                             \nnext player." << endl;
+            cin.get();
+            system("clear"); //For Grader: switch to system("cls") if using a Windows machine
         }
+
+        //Round Loop
+        while(!gameRules->roundOVer(game)){
+            
+        }
+
+        exit(0);
     }
 }
 

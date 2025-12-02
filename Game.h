@@ -13,6 +13,7 @@ class Game{
         void setCurrentCard(const Card*);
         Card* getCard(const Letter&, const Number&);
         void setCard(const Letter&, const Number&, Card*);
+        void incrementRound() {round++;}
 
         Board gameBoard;
     private:

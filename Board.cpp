@@ -45,8 +45,7 @@ bool Board::isValidIndex(const Letter& letter, const Number& number) const{
     isValid |= int(letter) > 4;
     isValid |= int(number) < 0;
     isValid |= int(number) > 4;
-    isValid |= int(letter) == 2;
-    isValid |= int(number) == 2;
+    isValid |= (int(letter) == 2 && int(number) == 2);
 
     return !isValid;
 }
