@@ -33,10 +33,26 @@ void Board::updateDisplay() {
 
 //Board output operator overload
 std::ostream &operator<<(std::ostream& os, const Board& board){
-    for(int i = 0; i < 21; i++){
+    if (int(board.displayMode) == 0){
+        for(int i = 0; i < 21; i++){
         os << board.display[i] << std::endl;
+        }
+        return os;
     }
-    return os;
+    else{
+        for (int i = 0; i < 5; i++){
+            for(int j = 0; j < 5; j++){
+                if (!(i == 2 && j == 2)){
+                    if(board.getCard(Letter(i), Number(j))->isFaceUp()){
+                        os << *(board.getCard(Letter(i), Number(j)));
+                        os << static_cast<char>(i + 65) << j + 1 << std::endl << std::endl;
+                    }
+                }      
+            }
+        }
+        return os;
+    }
+    
 }
 
 //Helper function for easily changing acceptable indices
@@ -119,7 +135,8 @@ bool Board::isFaceUp(const Letter& letter, const Number& number) const{
 
 //Board constructor
 // - Throws NoMoreCards
-Board::Board() {
+Board::Board(DisplayMode displayMode) {
+    this->displayMode = displayMode;
     CardDeck boardsDeck = CardDeck::makeCardDeck();
     CardDeck::resetState();
 

@@ -60,7 +60,7 @@ bool RubisDeckTest(){
 }
 
 bool BoardTest(){
-    Board myBoard;
+    Board myBoard(DisplayMode(0));
     myBoard.allFacesUp();
     std::cout << myBoard;
     myBoard.allFacesDown();
@@ -78,7 +78,7 @@ bool BoardTest(){
 }
 
 bool GameClassTest(){
-    Game myGame;
+    Game myGame(GameMode(0));
     Player david("David", Side::top);
     myGame.addPlayer(david);
     Player daniel("Daniel", Side::top);

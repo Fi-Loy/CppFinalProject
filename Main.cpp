@@ -128,7 +128,7 @@ void gameLoop(){
     }
 
     //Assign players to game
-    Game game;
+    Game game(GameMode(displayMode-1));
     for (int i = 0; i < numPlayers; i++){
         string playerName;
         
@@ -162,7 +162,6 @@ void gameLoop(){
     
     cin.get(); //empty out cin  
     system("clear"); //For Grader: switch to system("cls") if using a Windows machine
-    
     for(int i = 0; i < numPlayers; i++){
         cout << "\nPlayer " << i+1 << ", ensure no one else can see your cards.\
                  \nWhen you are ready to see your cards, hit any key." << endl;

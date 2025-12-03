@@ -1,10 +1,13 @@
 #include "Player.h"
 #include "Board.h"
 
+enum GameMode {gNormal, gExpert};
+
 class Game{
     friend std::ostream &operator<<(std::ostream&, const Game&);
     public:
-        Game() {};
+        Game(GameMode gameMode) 
+        : gameMode(gameMode), gameBoard(DisplayMode(gameMode)) {};
         int getRound() const;
         void addPlayer(const Player&);
         Player& getPlayer(Side) const;
@@ -17,6 +20,7 @@ class Game{
 
         Board gameBoard;
     private:
+        GameMode gameMode;
         int displayMode;
         int round = 0;
         // ^ use of mutable is potentially sketchy

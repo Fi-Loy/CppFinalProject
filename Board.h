@@ -12,11 +12,12 @@
 
 enum Letter {A, B, C, D, E};
 enum Number {one, two, three, four, five};
+enum DisplayMode {bNormal, bExpert};
 
 class Board{
     friend std::ostream &operator<<(std::ostream&, const Board&);
     public:
-        Board();
+        Board(DisplayMode DisplayMode);
         bool isFaceUp(const Letter&, const Number&) const;
         bool turnFaceUp(const Letter&, const Number&);
         bool turnFaceDown(const Letter&, const Number&);
@@ -25,6 +26,7 @@ class Board{
         void allFacesDown();
         void allFacesUp();
     private:
+        DisplayMode displayMode;
         void updateDisplay();
         bool isValidIndex(const Letter&, const Number&) const;
         std::string display[21];
@@ -41,7 +43,7 @@ class NoMoreCards : public std::out_of_range{
 class OutOfRange : public std::out_of_range{
     public:
         OutOfRange(const std::string& s, const Letter& letter, const Number& number) 
-            : std::out_of_range(s) , inValidLetter(letter), inValidNumber(number) {};
+            : std::out_of_range(s + ": " + char(int(letter) + 65) + ", " + char(int(number) + 48)) , inValidLetter(letter), inValidNumber(number) {};
         Letter inValidLetter;
         Number inValidNumber;
 };
