@@ -33,24 +33,24 @@ void Game::addPlayer(const Player& player){
 }
 
 //Returns the player at the given side of the board
-Player& Game::getPlayer(Side side){
+Player& Game::getPlayer(Side side) const{
     return players[int(side)];
 }
 
 //Returns the previous card
-const Card* Game::getPreviousCard(){
+const Card* Game::getPreviousCard() const{
     return previousCard;
 }
 
 //Returns the current card
-const Card* Game::getCurrentCard(){
+const Card* Game::getCurrentCard() const{
     return currentCard;
 }
 
 //Sets the current card;
 void Game::setCurrentCard(const Card* curCard){
-    *previousCard = *currentCard; // <- NOTE: this may not be how the game works, make sure to review this
-    *currentCard = *curCard;
+    previousCard = currentCard; // <- NOTE: this may not be how the game works, make sure to review this
+    currentCard = curCard;
 }
 
 //Gets a card from the board

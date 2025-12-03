@@ -7,9 +7,9 @@ class Game{
         Game() {};
         int getRound() const;
         void addPlayer(const Player&);
-        Player& getPlayer(Side);
-        const Card* getPreviousCard();
-        const Card* getCurrentCard();
+        Player& getPlayer(Side) const;
+        const Card* getPreviousCard() const;
+        const Card* getCurrentCard() const;
         void setCurrentCard(const Card*);
         Card* getCard(const Letter&, const Number&);
         void setCard(const Letter&, const Number&, Card*);
@@ -17,10 +17,12 @@ class Game{
 
         Board gameBoard;
     private:
+        int displayMode;
         int round = 0;
-        Player players[4] = {Player("empty", Side::top),Player("empty", Side::bottom),Player("empty", Side::left),Player("empty", Side::right)};
-        Card* previousCard;
-        Card* currentCard;
+        // ^ use of mutable is potentially sketchy
+        mutable Player players[4] = {Player("empty", Side::top),Player("empty", Side::bottom),Player("empty", Side::left),Player("empty", Side::right)};
+        mutable const Card* previousCard = nullptr;
+        mutable const Card* currentCard = nullptr;
 };
 
 class OccupiedIndexError : public std::logic_error{

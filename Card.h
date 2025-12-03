@@ -21,6 +21,8 @@ class Card{
         operator FaceAnimal() const {return face;}
         operator FaceBackground() const {return background;}
         char enumMap(FaceAnimal) const;
+        bool match(const Card&) const;
+        bool match(const Card*) const;
     private:
         FaceAnimal face;
         FaceBackground background;

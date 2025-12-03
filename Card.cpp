@@ -50,3 +50,10 @@ std::string Card::getRow(int i){
         return {CardBack, CardBack, CardBack};
 
 }
+
+bool Card::match(const Card& card) const{
+    return this->face == card.face || this->background == card.background;
+}
+bool Card::match(const Card* card) const{
+    return this->face == card->face || this->background == card->background;
+}

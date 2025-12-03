@@ -7,7 +7,7 @@ class Rules{
         Rules(RuleSet ruleSet) : ruleSet(ruleSet) {}
         bool isValid(const Game&);
         bool gameOver(const Game&);
-        bool roundOVer(const Game&);
+        bool roundOver(const Game&);
         const Player& getNextPlayer(const Game&);
     private:
         RuleSet ruleSet;
