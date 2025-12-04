@@ -52,7 +52,6 @@ std::ostream &operator<<(std::ostream& os, const Board& board){
         }
         return os;
     }
-    
 }
 
 //Helper function for easily changing acceptable indices

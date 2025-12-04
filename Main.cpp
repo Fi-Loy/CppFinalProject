@@ -58,28 +58,31 @@ void cardPeek(const Player& player, Game& game){
     game.gameBoard.allFacesDown();
 }
 
+int g_number;
+char g_letter;
+
 Card* validateCardSelection(Game& game){
 
     bool validSelection = false;
-    int number;
-    char letter;
+    
 
     while(!validSelection){
         cout << "Enter a location: ";
-        cin >> letter;
-        cin >> number;
+        cin >> g_letter;
+        cin >> g_number;
 
-        letter = tolower(letter) - 'a';
-        number--;
+        g_letter = tolower(g_letter) - 'a';
+        g_number--;
 
         try{
-            Card* selection = game.gameBoard.getCard(Letter(letter), Number(number));
+            Card* selection = game.gameBoard.getCard(Letter(g_letter), Number(g_number));
             if (selection->isFaceUp())
                 cout << "Card is already face up!" << endl;
-            else
+            else{
                 validSelection = true;
-                game.gameBoard.turnFaceUp(Letter(letter), Number(number));
+                game.gameBoard.turnFaceUp(Letter(g_letter), Number(g_number));
                 return selection;
+            }
         } catch (OutOfRange){
             cout << "Invalid Selection." << endl;
         } 
@@ -189,12 +192,15 @@ void gameLoop(){
                     game.setCurrentCard(validateCardSelection(game));
                     if(!gameRules->isValid(game)){
                         cout << "Selection does not match with the previous card!\
-                                 \nYou are out of the round!" << endl;
+                                \nYou are out of the round!" << endl;
                         targetPlayer.setActive(false);
                     }
+                    cin.get();
+                    cin.get();
                     system("clear"); //For Grader: switch to system("cls") if using a Windows machine
                     cout << "Round " << game.getRound()+1 << endl;
                     cout << game << endl;
+                    cout << "Previous selection: " << char(g_letter+65) << g_number + 1 << endl;
                 }
                 if(!gameRules->roundOver(game))
                     activeInt = (activeInt + 1) % 4;

@@ -7,7 +7,7 @@ using namespace std;
 ostream &operator<<(ostream& os, const Player& player){
     if (!(player.getDisplayMode())){
         string activeStatus = player.isActive() ? "active" : "inactive";
-        os << player.getName() << ": " << player.getSide() << " (" << activeStatus << ")";
+        os << player.getName() << ": " << player.getSide() + 1 << " (" << activeStatus << ")";
     }
     else
         os << player.getName() << ": " << player.getNRubis() << " rubis";
